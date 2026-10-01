@@ -14,7 +14,7 @@ const port=Number(process.env.PORT||3000),origin=(process.env.SITE_URL||`http://
 const dataDir=resolve(process.env.DATA_DIR||(process.env.VERCEL?join('/tmp','central-luzon-data'):join(root,'data')));
 const types={'.css':'text/css','.js':'text/javascript','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.avif':'image/avif','.ico':'image/x-icon','.webmanifest':'application/manifest+json'};
 const rates=new Map();
-export const server=http.createServer(async(req,res)=>{try{
+const server=http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,origin),path=decodeURIComponent(url.pathname);
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');res.setHeader('X-Frame-Options','DENY');
  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
