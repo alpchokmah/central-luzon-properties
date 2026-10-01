@@ -68,3 +68,4 @@ export const server=http.createServer(async(req,res)=>{try{
  res.setHeader('Content-Length',info.size);if(req.method==='HEAD')return res.end();createReadStream(file).pipe(res);
  }catch(error){console.error('Request failed:',error.message);if(!res.headersSent)res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'Unable to save or load right now. Please try again.'}));}});
 if(process.argv[1]===fileURLToPath(import.meta.url)||process.env.VERCEL)server.listen(port,host,()=>console.log(`Central Luzon Properties: ${origin}`));
+export default server;
