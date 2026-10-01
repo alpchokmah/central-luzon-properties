@@ -1,0 +1,13 @@
+node_modules/
+data/
+3D-map/
+materials/
+.env
+tmp/
+.DS_Store
+.vercel
+# Google service account keys (never commit)
+central-luzon-properties-*.json
+secrets/
+
+SOURCES.md

@@ -1,0 +1,1 @@
+{"name":"central-luzon-properties","private":true,"type":"module","scripts":{"dev":"node --env-file=.env server.mjs","start":"node --env-file=.env server.mjs","test":"node --test tests/*.test.mjs"},"engines":{"node":">=22"}}
