@@ -12,7 +12,6 @@ import {sheetsConfigured,appendLeadToSheet,appendPartnerToSheet} from './lib/she
 const root=fileURLToPath(new URL('.',import.meta.url)),pub=join(root,'public');
 const port=Number(process.env.PORT||3000),origin=(process.env.SITE_URL||`http://localhost:${port}`).replace(/\/$/,'');
 const dataDir=resolve(process.env.DATA_DIR||(process.env.VERCEL?join('/tmp','central-luzon-data'):join(root,'data')));
-const host=process.env.HOST||(process.env.VERCEL?'0.0.0.0':'127.0.0.1');
 const types={'.css':'text/css','.js':'text/javascript','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.avif':'image/avif','.ico':'image/x-icon','.webmanifest':'application/manifest+json'};
 const rates=new Map();
 export const server=http.createServer(async(req,res)=>{try{
@@ -67,5 +66,7 @@ export const server=http.createServer(async(req,res)=>{try{
  if(req.headers.range){const match=/^bytes=(\d+)-(\d*)$/.exec(req.headers.range);if(!match){res.writeHead(416);return res.end();}const start=Number(match[1]),end=match[2]?Number(match[2]):info.size-1;if(start>end||end>=info.size){res.writeHead(416,{'Content-Range':`bytes */${info.size}`});return res.end();}res.writeHead(206,{'Content-Range':`bytes ${start}-${end}/${info.size}`,'Content-Length':end-start+1});if(req.method==='HEAD')return res.end();return createReadStream(file,{start,end}).pipe(res);}
  res.setHeader('Content-Length',info.size);if(req.method==='HEAD')return res.end();createReadStream(file).pipe(res);
  }catch(error){console.error('Request failed:',error.message);if(!res.headersSent)res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'Unable to save or load right now. Please try again.'}));}});
-if(process.argv[1]===fileURLToPath(import.meta.url)||process.env.VERCEL)server.listen(port,host,()=>console.log(`Central Luzon Properties: ${origin}`));
-export default server;
+const listenPort=Number(process.env.PORT||3000);
+if(process.env.HOST)server.listen(listenPort,process.env.HOST,()=>console.log(`Central Luzon Properties: ${origin}`));
+else server.listen(listenPort,()=>console.log(`Central Luzon Properties: ${origin}`));
+
